@@ -10,7 +10,7 @@
 <br />
 
 > [!IMPORTANT]  
-> Al final de cada fichero tienes una explicación del código.
+> Al final de cada fichero tienes una explicación del código. 
 
 <br />
 
