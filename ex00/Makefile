@@ -2,10 +2,10 @@
 # VARIABLES                                                                    #
 # NAME: Define el nombre de la biblioteca que se creará.                       #
 NAME = fixed_test
-# CC: Especifica el compilador a usar.                                         #
-CC = c++
+# CCXX: Especifica el compilador a usar.                                       #
+CCXX = c++
 # CCFLAGS: Define las opciones del compilador                                  #
-CCFLAGS = -Wall -Wextra -Werror -std=c++98 #-MMD
+CCXXFLAGS = -Wall -Wextra -Werror -std=c++98 -MMD
 # RM: Comando para eliminar archivos.                                          #
 RM = rm -rf
 # SRCS: Lista los archivos fuente que forman parte de la biblioteca.           #
@@ -13,7 +13,6 @@ SRCS = main.cpp Fixed.cpp
 # OBJS: Lista de objetos (archivos ".o") generados a partir de la compilación  #
 #       de los archivos fuente C++ listados en SRCS.                           #
 OBJS = ${SRCS:.cpp=.o}
-
 # DEPS: Lista de archivos de dependencia que son necesarios para compilar      #
 #       correctamente los archivos fuente C++ listados en SRCS.                #
 DEPS = ${SRCS:.cpp=.d}
@@ -29,7 +28,7 @@ ORANGE =		\033[38;5;209m
 
 # **************************************************************************** #
 # REGLAS                                                                       #
-# .DEFAULT_GOAL := all
+# .DEFAULT_GOAL := all                                                         #
 # %.o : %.c: Esta regla indica cómo compilar cada archivo fuente (.c)          #
 #            en un archivo objeto (.o).                                        #
 #            La acción @$(CC) $(CCFLAGS) -c -o $@ $< utiliza el compilador gcc #
@@ -37,17 +36,15 @@ ORANGE =		\033[38;5;209m
 #            fuente ($<) y generar el archivo objeto ($@).                     #
 %.o: %.cpp Fixed.hpp
 		@echo "\n${YELLOW} Compilando ✨ $< $(DEF_COLOR)"
-#		@$(CC) $(CFLAGS) -c $^ -o $@	
-		@$(CC) $(CFLAGS) -c $< -o $@
+		@${CCXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
 # $(NAME) : $(OBJS): Esta regla indica que para crear la biblioteca            #
 #           se necesitan los archivos objeto ($(OBJS) y $(OBJSB).              #       
 $(NAME): $(OBJS)
-		@${CC} ${CFLAGS} ${SRCS} -o ${NAME}
+		@${CCXX} ${CXXFLAGS} ${SRCS} -o ${NAME}
 		@echo "\n${YELLOW} ✅ ${GREEN}$(NAME) $(DEF_COLOR)\n"
 		@echo "\n\tTests -- Pruebas\n"
 		@echo "\n ${ORANGE}Para pobrar el programa:"
 		@echo "\n ▶️ ${GREEN} ./fixed_test $(DEF_COLOR)\n"		
-	
 # all: Esta regla es un alias para la regla $(NAME).                           #
 #      Cuando se ejecuta make all, se crea la biblioteca.                      #
 all: $(NAME)
@@ -60,9 +57,9 @@ clean:
 		@echo "\n${ORANGE} ❌ Todos los objetos eliminados$(DEF_COLOR)\n"
 # fclean: Esta regla elimina la biblioteca (libft.a)                           #
 #         y los archivos objeto (.o).                                          #
-fclean:
-		@${RM} ${OBJS} ${DEPS} ${NAME}
-		@echo "\n${ORANGE} ❌ Todos los objetos y ejecutables eliminados$(DEF_COLOR)\n"
+fclean:	clean
+		@${RM} ${NAME}
+		@echo "\n${ORANGE} ❌ Ejecutable eliminado$(DEF_COLOR)\n"
 # re: Esta regla es un alias para la secuencia fclean all.                     #
 #     Cuando se ejecuta make re, se limpia la compilación anterior             #
 #     y se crea la biblioteca nuevamente.                                      #
