@@ -36,7 +36,8 @@ ORANGE =		\033[38;5;209m
 #            fuente ($<) y generar el archivo objeto ($@).                     #
 %.o: %.cpp Fixed.hpp
 		@echo "\n${YELLOW} Compilando ✨ $< $(DEF_COLOR)"
-		@${CCXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
+#		@${CCXX} ${CXXFLAGS} ${OBJS} -o ${NAME}
+		@$(CXX) $(CXXFLAGS) -c $< -o $@
 # $(NAME) : $(OBJS): Esta regla indica que para crear la biblioteca            #
 #           se necesitan los archivos objeto ($(OBJS) y $(OBJSB).              #       
 $(NAME): $(OBJS)
